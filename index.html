@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SABLE — Wear the Darkness. Own the Light.</title>
+  <meta name="description" content="SABLE — Premium dark fashion. Wear the darkness. Own the light.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="sable.css">
+</head>
+<body>
+
+<!-- ===== ALMIRAH GATE ===== -->
+<div id="gate">
+  <!-- Golden light behind the doors -->
+  <div id="gate-light"></div>
+
+  <!-- Crown bar across top -->
+  <div id="gate-crown">
+    <div class="crown-ornament">⬡</div>
+    <div class="crown-line"></div>
+    <div class="crown-center-gem">◆</div>
+    <div class="crown-line"></div>
+    <div class="crown-ornament">⬡</div>
+  </div>
+
+  <!-- Arch beneath crown -->
+  <div id="gate-arch">
+    <div class="arch-left"></div>
+    <div class="arch-center-piece">
+      <div class="arch-keystone">⚜</div>
+    </div>
+    <div class="arch-right"></div>
+  </div>
+
+  <!-- Center seam with medallion -->
+  <div id="gate-seam">
+    <div id="gate-medallion">
+      <div class="medallion-ring">
+        <div class="medallion-inner">⚜</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="door door-left" id="door-left">
+    <div class="door-cornice"></div>
+    <div class="door-panels">
+      <div class="door-panel">
+        <div class="panel-inset"></div>
+      </div>
+      <div class="door-panel large-panel">
+        <div class="panel-inset">
+          <div class="panel-diamond">◆</div>
+        </div>
+      </div>
+      <div class="door-panel">
+        <div class="panel-inset"></div>
+      </div>
+    </div>
+    <div class="hinges">
+      <div class="hinge"></div>
+      <div class="hinge"></div>
+      <div class="hinge"></div>
+    </div>
+    <div class="door-handle"></div>
+    <div class="door-keyhole"></div>
+    <div class="door-bottom-strip"></div>
+  </div>
+
+  <div class="door door-right" id="door-right">
+    <div class="door-cornice"></div>
+    <div class="door-panels">
+      <div class="door-panel">
+        <div class="panel-inset"></div>
+      </div>
+      <div class="door-panel large-panel">
+        <div class="panel-inset">
+          <div class="panel-diamond">◆</div>
+        </div>
+      </div>
+      <div class="door-panel">
+        <div class="panel-inset"></div>
+      </div>
+    </div>
+    <div class="hinges">
+      <div class="hinge"></div>
+      <div class="hinge"></div>
+      <div class="hinge"></div>
+    </div>
+    <div class="door-handle"></div>
+    <div class="door-keyhole"></div>
+    <div class="door-bottom-strip"></div>
+  </div>
+
+  <!-- Bottom base bar -->
+  <div id="gate-base"></div>
+</div>
+
+<!-- Scroll hint -->
+<div id="scroll-hint">
+  <p>Scroll to Enter</p>
+  <div class="scroll-chevrons">
+    <span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- Gives scroll room for gate animation -->
+<div id="gate-spacer"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">SABLE</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Shop</a></li>
+    <li><a href="#wardrobe">Collections</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="cart.html" class="nav-cart">
+      &#128092;
+      <span class="cart-badge" style="display:none">0</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div id="mobile-menu">
+  <button class="menu-close" id="menu-close">&times;</button>
+  <a href="index.html">Shop</a>
+  <a href="#wardrobe">Collections</a>
+  <a href="#">About</a>
+  <a href="cart.html">Cart</a>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div id="main-content">
+
+  <!-- Wardrobe -->
+  <section id="wardrobe">
+    <div id="search-wrap">
+      <span class="s-icon">&#9906;</span>
+      <input type="search" id="search-input" placeholder="Search pieces..." autocomplete="off">
+    </div>
+
+    <div id="cat-tabs">
+      <button class="cat-btn active" data-cat="All">All</button>
+      <button class="cat-btn" data-cat="T-Shirts">T-Shirts</button>
+      <button class="cat-btn" data-cat="Tops">Tops</button>
+      <button class="cat-btn" data-cat="Shirts">Shirts</button>
+      <button class="cat-btn" data-cat="Hoodies">Hoodies</button>
+      <button class="cat-btn" data-cat="Jackets">Jackets</button>
+      <button class="cat-btn" data-cat="Bottoms">Bottoms</button>
+      <button class="cat-btn" data-cat="Dresses">Dresses</button>
+      <button class="cat-btn" data-cat="Accessories">Accessories</button>
+    </div>
+
+    <!-- Full-width almirah -->
+    <div id="almirah-frame">
+      <div id="almirah-cornice">
+        <div class="cornice-left-ornament">◈</div>
+        <div class="cornice-title">✦ THE WARDROBE ✦</div>
+        <div class="cornice-right-ornament">◈</div>
+      </div>
+      <div id="wardrobe-rod">
+        <div class="rod-endcap left"></div>
+        <div class="rod-endcap right"></div>
+      </div>
+      <div id="wardrobe-interior">
+        <div id="products-grid"></div>
+        <div id="no-results">No pieces found.</div>
+      </div>
+      <div id="almirah-base">
+        <div class="base-leg left"></div>
+        <div class="base-leg right"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="f-logo">SABLE</div>
+    <div class="f-tag">Wear the Darkness. Own the Light.</div>
+    <ul class="f-links">
+      <li><a href="index.html">Shop</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <div class="f-copy">&copy; 2025 SABLE. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="sable.js"></script>
+</body>
+</html>

@@ -13,54 +13,68 @@
 </head>
 <body>
 
-<!-- ===== MOBILE INTRO — SABLE STROKE ANIMATION ===== -->
+<!-- ===== MOBILE INTRO — SABLE CINZEL STROKE ANIMATION ===== -->
 <div id="mobile-intro" style="display:none">
   <div class="sable-svg-wrap">
-    <svg class="sable-svg" viewBox="0 0 520 160" width="100%" xmlns="http://www.w3.org/2000/svg" aria-label="SABLE">
+    <svg class="sable-svg" viewBox="0 0 580 130" width="100%" xmlns="http://www.w3.org/2000/svg" aria-label="SABLE">
       <defs>
-        <filter id="gold-glow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+        <filter id="gold-glow" x="-25%" y="-25%" width="150%" height="150%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
           <feMerge>
             <feMergeNode in="blur"/>
             <feMergeNode in="blur"/>
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
-        <filter id="gold-glow-strong" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+        <filter id="gold-glow-outer" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
           <feMerge>
             <feMergeNode in="blur"/>
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
+          .sl {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 108px;
+            font-weight: 700;
+            fill: none;
+            stroke: #C9A84C;
+            stroke-width: 1.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+          }
+          .sl.draw { animation: sableWrite 0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+          .sl-fill { animation: sableFill 0.5s ease forwards; }
+          @keyframes sableWrite {
+            to { stroke-dashoffset: 0; }
+          }
+          @keyframes sableFill {
+            from { fill: rgba(201,168,76,0); }
+            to   { fill: rgba(201,168,76,0.08); }
+          }
+        </style>
       </defs>
 
-      <!-- Shadow/glow layer drawn first -->
-      <g class="sable-glow-layer" filter="url(#gold-glow-strong)" opacity="0">
-        <!-- S -->
-        <path d="M34,32 C12,32 8,48 8,58 C8,76 22,83 44,90 C66,97 80,105 80,122 C80,136 68,143 46,143 C24,143 10,133 6,118" stroke="#C9A84C" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- A -->
-        <path d="M112,143 L147,32 L182,143 M122,106 L172,106" stroke="#C9A84C" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- B -->
-        <path d="M210,143 L210,32 L240,32 C264,32 276,42 276,58 C276,72 266,80 252,82 C270,85 283,96 283,116 C283,134 268,143 242,143 L210,143 Z" stroke="#C9A84C" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- L -->
-        <path d="M308,32 L308,143 L362,143" stroke="#C9A84C" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- E -->
-        <path d="M386,32 L448,32 M386,32 L386,143 L448,143 M386,87 L436,87" stroke="#C9A84C" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Outer glow copies (invisible until fill triggers) -->
+      <g filter="url(#gold-glow-outer)" opacity="0" id="sable-glow-bg">
+        <text class="sl" x="14"  y="108">S</text>
+        <text class="sl" x="126" y="108">A</text>
+        <text class="sl" x="245" y="108">B</text>
+        <text class="sl" x="356" y="108">L</text>
+        <text class="sl" x="454" y="108">E</text>
       </g>
 
-      <!-- Main stroke letters -->
+      <!-- Main animated letters with inner glow -->
       <g filter="url(#gold-glow)">
-        <!-- S -->
-        <path class="sable-letter-path" d="M34,32 C12,32 8,48 8,58 C8,76 22,83 44,90 C66,97 80,105 80,122 C80,136 68,143 46,143 C24,143 10,133 6,118" stroke="#C9A84C" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- A -->
-        <path class="sable-letter-path" d="M112,143 L147,32 L182,143 M122,106 L172,106" stroke="#C9A84C" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- B -->
-        <path class="sable-letter-path" d="M210,143 L210,32 L240,32 C264,32 276,42 276,58 C276,72 266,80 252,82 C270,85 283,96 283,116 C283,134 268,143 242,143 L210,143 Z" stroke="#C9A84C" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- L -->
-        <path class="sable-letter-path" d="M308,32 L308,143 L362,143" stroke="#C9A84C" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- E -->
-        <path class="sable-letter-path" d="M386,32 L448,32 M386,32 L386,143 L448,143 M386,87 L436,87" stroke="#C9A84C" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text class="sl" id="sl-s" x="14"  y="108">S</text>
+        <text class="sl" id="sl-a" x="126" y="108">A</text>
+        <text class="sl" id="sl-b" x="245" y="108">B</text>
+        <text class="sl" id="sl-l" x="356" y="108">L</text>
+        <text class="sl" id="sl-e" x="454" y="108">E</text>
       </g>
     </svg>
   </div>

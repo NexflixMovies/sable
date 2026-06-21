@@ -101,41 +101,53 @@ function initMobileIntro(){
     return;
   }
 
-  var allPaths=intro.querySelectorAll('.sable-letter-path');
+  // Letter IDs and their sequential start times (ms)
+  var letters=[
+    {id:'sl-s', start:180,  dur:820},
+    {id:'sl-a', start:880,  dur:860},
+    {id:'sl-b', start:1620, dur:920},
+    {id:'sl-l', start:2420, dur:680},
+    {id:'sl-e', start:2980, dur:860}
+  ];
 
-  // Staggered stroke write-on: each letter draws sequentially
-  var delays=[0.1, 0.55, 1.05, 1.7, 2.1];
-  var durations=[0.6, 0.7, 0.85, 0.55, 0.75];
-
-  allPaths.forEach(function(path,i){
-    var len;
-    try{ len=path.getTotalLength(); }catch(e){ len=350; }
-    path.style.strokeDasharray=len;
-    path.style.strokeDashoffset=len;
-    path.style.opacity='1';
-    path.style.transition='stroke-dashoffset '+durations[i]+'s cubic-bezier(0.22,1,0.36,1) '+delays[i]+'s';
-    // Force reflow
-    path.getBoundingClientRect();
+  letters.forEach(function(l){
+    var el=document.getElementById(l.id);
+    if(!el)return;
+    // Each letter: set its own animation duration then add .draw class after delay
     setTimeout(function(){
-      path.style.strokeDashoffset='0';
-    },20);
+      el.style.animationDuration=l.dur+'ms';
+      el.classList.add('draw');
+    }, l.start);
   });
 
-  // Show glow + tagline after all letters drawn
-  setTimeout(function(){
-    intro.classList.add('reveal');
-  },1600);
+  // After all letters drawn, light up outer glow and tagline
+  var totalDraw=letters[letters.length-1].start + letters[letters.length-1].dur;
 
-  // Fade out intro, reveal content
+  setTimeout(function(){
+    var glowBg=document.getElementById('sable-glow-bg');
+    if(glowBg){
+      glowBg.style.transition='opacity 0.7s ease';
+      glowBg.style.opacity='0.6';
+      // Mirror drawn state to glow layer
+      letters.forEach(function(l){
+        var mirror=glowBg.querySelectorAll('.sl')[letters.indexOf(l)];
+        if(mirror){
+          mirror.style.strokeDashoffset='0';
+          mirror.style.transition='none';
+        }
+      });
+    }
+    intro.classList.add('reveal');
+  }, totalDraw + 100);
+
+  // Fade out, show content
   setTimeout(function(){
     intro.classList.add('gone');
     sessionStorage.setItem('sable_intro_seen','1');
-    setTimeout(function(){
-      intro.style.display='none';
-    },900);
+    setTimeout(function(){intro.style.display='none';},900);
     if(navbar)navbar.classList.add('visible');
     if(mainContent)mainContent.classList.add('visible');
-  },3000);
+  }, totalDraw + 1100);
 }
 
 // ==================== GATE ANIMATION (Desktop/Tablet) ====================

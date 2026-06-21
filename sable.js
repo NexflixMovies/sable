@@ -61,22 +61,22 @@ function showToast(msg){
 
 // ==================== DUST PARTICLES ====================
 function spawnParticles(){
-  var count=18;
+  var count=24;
   for(var i=0;i<count;i++){
     (function(idx){
       setTimeout(function(){
         var p=document.createElement('div');
         p.className='gate-particle';
-        var size=Math.random()*3+1;
-        var startX=window.innerWidth*0.3+Math.random()*window.innerWidth*0.4;
-        var startY=window.innerHeight*0.2+Math.random()*window.innerHeight*0.6;
-        var dx=(Math.random()-0.5)*200;
-        var dy=-(Math.random()*120+40);
-        var dur=Math.random()*1.2+1.0;
-        p.style.cssText=['width:'+size+'px','height:'+size+'px','left:'+startX+'px','top:'+startY+'px','--dx:'+dx+'px','--dy:'+dy+'px','--dur:'+dur+'s','opacity:0.8'].join(';');
+        var size=Math.random()*4+1;
+        var startX=window.innerWidth*0.25+Math.random()*window.innerWidth*0.5;
+        var startY=window.innerHeight*0.15+Math.random()*window.innerHeight*0.7;
+        var dx=(Math.random()-0.5)*320;
+        var dy=-(Math.random()*160+60);
+        var dur=Math.random()*1.6+1.0;
+        p.style.cssText=['width:'+size+'px','height:'+size+'px','left:'+startX+'px','top:'+startY+'px','--dx:'+dx+'px','--dy:'+dy+'px','--dur:'+dur+'s','opacity:0.9'].join(';');
         document.body.appendChild(p);
         setTimeout(function(){p.remove();},dur*1000+200);
-      },idx*55);
+      },idx*40);
     })(i);
   }
 }
@@ -94,7 +94,6 @@ function initMobileIntro(){
   var navbar=document.getElementById('navbar');
   var mainContent=document.getElementById('main-content');
 
-  // Check if already seen this session
   if(sessionStorage.getItem('sable_intro_seen')){
     intro.style.display='none';
     if(navbar)navbar.classList.add('visible');
@@ -102,27 +101,32 @@ function initMobileIntro(){
     return;
   }
 
-  // Get the SVG text element and animate stroke
-  var textEl=intro.querySelector('.sable-letter-path');
   var allPaths=intro.querySelectorAll('.sable-letter-path');
 
-  // Animate each letter path sequentially
+  // Staggered stroke write-on: each letter draws sequentially
+  var delays=[0.1, 0.55, 1.05, 1.7, 2.1];
+  var durations=[0.6, 0.7, 0.85, 0.55, 0.75];
+
   allPaths.forEach(function(path,i){
-    var len=path.getTotalLength ? path.getTotalLength() : 300;
+    var len;
+    try{ len=path.getTotalLength(); }catch(e){ len=350; }
     path.style.strokeDasharray=len;
     path.style.strokeDashoffset=len;
-    path.style.transition='stroke-dashoffset '+(0.55+i*0.12)+'s cubic-bezier(0.4,0,0.2,1) '+(0.2+i*0.18)+'s';
+    path.style.opacity='1';
+    path.style.transition='stroke-dashoffset '+durations[i]+'s cubic-bezier(0.22,1,0.36,1) '+delays[i]+'s';
+    // Force reflow
+    path.getBoundingClientRect();
     setTimeout(function(){
       path.style.strokeDashoffset='0';
-    },50);
+    },20);
   });
 
-  // After letters drawn, add fill fade-in class
+  // Show glow + tagline after all letters drawn
   setTimeout(function(){
     intro.classList.add('reveal');
-  },1400);
+  },1600);
 
-  // After animation completes, hide intro and show content
+  // Fade out intro, reveal content
   setTimeout(function(){
     intro.classList.add('gone');
     sessionStorage.setItem('sable_intro_seen','1');
@@ -131,7 +135,7 @@ function initMobileIntro(){
     },900);
     if(navbar)navbar.classList.add('visible');
     if(mainContent)mainContent.classList.add('visible');
-  },2600);
+  },3000);
 }
 
 // ==================== GATE ANIMATION (Desktop/Tablet) ====================
@@ -143,6 +147,7 @@ function initGate(){
   var navbar=document.getElementById('navbar');
   var mainContent=document.getElementById('main-content');
   var gateLight=document.getElementById('gate-light');
+  var gateRays=document.getElementById('gate-rays');
   var gateGone=false;
   var particlesSpawned=false;
 
@@ -161,27 +166,57 @@ function initGate(){
   leftDoor.style.transformOrigin='left center';
   rightDoor.style.transformOrigin='right center';
 
-  function easeOut(t){return 1-Math.pow(1-t,3);}
+  // Cubic ease-out for main rotation
+  function easeOutCubic(t){return 1-Math.pow(1-t,3);}
+  // Extra ease for the final dramatic swing
+  function easeOutQuint(t){return 1-Math.pow(1-t,5);}
 
   function onScroll(){
     if(gateGone)return;
     var scrollY=window.scrollY||window.pageYOffset;
-    var threshold=window.innerHeight*0.88;
+    var threshold=window.innerHeight*0.85;
     var rawProgress=Math.min(scrollY/threshold,1);
-    var progress=easeOut(rawProgress);
+    var progress=easeOutCubic(rawProgress);
 
-    var angle=progress*92;
-    leftDoor.style.transform='perspective(2400px) rotateY('+(-angle)+'deg)';
-    rightDoor.style.transform='perspective(2400px) rotateY('+angle+'deg)';
+    // Doors swing open up to 105 degrees for dramatic reveal
+    var angle=progress*105;
+    leftDoor.style.transform='perspective(2600px) rotateY('+(-angle)+'deg)';
+    rightDoor.style.transform='perspective(2600px) rotateY('+angle+'deg)';
 
-    if(hint)hint.style.opacity=(rawProgress<0.08)?1:Math.max(0,1-(rawProgress-0.08)/0.18);
-    if(gateLight)gateLight.style.opacity=Math.min(progress*1.4,0.85);
-    if(progress>0.45&&navbar)navbar.classList.add('visible');
-    if(progress>0.62&&mainContent)mainContent.classList.add('visible');
-    if(progress>0.6&&!particlesSpawned){particlesSpawned=true;spawnParticles();}
+    // Scroll hint fades quickly
+    if(hint)hint.style.opacity=rawProgress<0.05?1:Math.max(0,1-(rawProgress-0.05)/0.12);
+
+    // Light & rays intensity tied to progress
+    if(gateLight)gateLight.style.opacity=Math.min(easeOutQuint(rawProgress)*1.1,0.95);
+
+    // Rays appear from ~25% progress
+    if(gateRays){
+      var rayOpacity=rawProgress>0.25?Math.min((rawProgress-0.25)/0.35,1)*0.75:0;
+      gateRays.style.opacity=rayOpacity;
+      // Rays also scale up as doors open
+      var rayScale=0.4+rawProgress*0.9;
+      gateRays.style.transform='translate(-50%,-50%) scale('+rayScale+')';
+      if(rawProgress>0.25)gate.classList.add('opening');
+    }
+
+    // Navbar slides in early
+    if(progress>0.38&&navbar)navbar.classList.add('visible');
+    // Content fades in a bit later
+    if(progress>0.58&&mainContent)mainContent.classList.add('visible');
+    // Particles burst as doors are mostly open
+    if(rawProgress>0.55&&!particlesSpawned){particlesSpawned=true;spawnParticles();}
 
     if(rawProgress>=1&&!gateGone){
       gateGone=true;
+      // Brief bright flash before gate disappears
+      if(gateLight){
+        gateLight.style.transition='opacity 0.15s ease';
+        gateLight.style.opacity='1';
+        setTimeout(function(){
+          gateLight.style.transition='opacity 0.4s ease';
+          gateLight.style.opacity='0';
+        },140);
+      }
       gate.classList.add('gone');
       sessionStorage.setItem('sable_gate_seen','1');
       setTimeout(function(){
@@ -189,7 +224,7 @@ function initGate(){
         var spacer=document.getElementById('gate-spacer');
         if(spacer){spacer.style.height='0';spacer.style.display='none';}
         window.scrollTo(0,0);
-      },480);
+      },520);
     }
   }
 
@@ -203,7 +238,6 @@ function initEntrance(){
   var mobileIntro=document.getElementById('mobile-intro');
 
   if(isMobile()){
-    // Mobile: use stroke animation, hide gate
     if(gate){gate.style.display='none';}
     var spacer=document.getElementById('gate-spacer');
     if(spacer){spacer.style.height='0';spacer.style.display='none';}
@@ -213,14 +247,12 @@ function initEntrance(){
       mobileIntro.style.display='flex';
       initMobileIntro();
     }else{
-      // No mobile intro element, just show immediately
       var navbar=document.getElementById('navbar');
       var mainContent=document.getElementById('main-content');
       if(navbar)navbar.classList.add('visible');
       if(mainContent)mainContent.classList.add('visible');
     }
   }else{
-    // Desktop/Tablet: use gate animation, hide mobile intro
     if(mobileIntro){mobileIntro.style.display='none';}
     if(gate){initGate();}
   }

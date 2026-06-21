@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SABLE — Cart</title>
+  <meta name="theme-color" content="#060402">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="sable.css">
+</head>
+<body>
+
+<nav id="navbar" class="visible">
+  <a href="index.html" class="nav-logo">SABLE</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Shop</a></li>
+    <li><a href="index.html#wardrobe">Collections</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="cart.html" class="nav-cart">
+      &#128092;
+      <span class="cart-badge" style="display:none">0</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div id="mobile-menu">
+  <button class="menu-close" id="menu-close">&times;</button>
+  <a href="index.html">Shop</a>
+  <a href="index.html#wardrobe">Collections</a>
+  <a href="#">About</a>
+  <a href="cart.html">Cart</a>
+</div>
+
+<div class="page-wrap">
+  <div class="cart-wrap">
+
+    <div class="inner-page-header">
+      <div class="inner-page-header-line"></div>
+      <a href="index.html" class="back-link">&#8592; Continue shopping</a>
+      <h1 class="cart-title">Your Selection</h1>
+      <p class="inner-page-sub">Each piece, considered.</p>
+    </div>
+
+    <div id="cart-empty" class="cart-empty" style="display:none">
+      <div class="empty-icon">◈</div>
+      <p>Your wardrobe awaits.</p>
+      <a href="index.html">Explore the collection</a>
+    </div>
+
+    <div class="cart-head">
+      <div></div>
+      <div>Piece</div>
+      <div>Quantity</div>
+      <div>Price</div>
+      <div></div>
+    </div>
+
+    <div id="cart-body"></div>
+
+    <div id="cart-summary" class="cart-summary" style="display:none">
+      <div class="cart-perks">
+        <span>✦ Free shipping</span>
+        <span>✦ Secure checkout</span>
+        <span>✦ Easy returns</span>
+      </div>
+      <div class="cart-total">Total <span id="cart-total-price">&#8377;0</span></div>
+      <a href="checkout.html" class="btn-gold" style="text-decoration:none;display:inline-block;min-width:220px;text-align:center;">
+        Proceed to Checkout
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="sable.js" defer></script>
+</body>
+</html>

@@ -5,7 +5,7 @@
 :root{
   --gold:#C9A84C;
   --gold-light:#E8C76A;
-  --gold-dark:#8a6a10;
+  --gold-dark:#d0a93e;
   --wood-dark:#1a0800;
   --wood-mid:#3a1200;
   --wood-rich:#5c2808;
@@ -25,25 +25,24 @@ body{background:var(--bg);color:var(--cream);font-family:'Montserrat',sans-serif
   background:var(--bg);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   pointer-events:none;
-  transition:opacity 0.8s ease;
+  transition:opacity 0.9s ease;
 }
 #mobile-intro.gone{opacity:0;}
 #mobile-intro .sable-svg-wrap{
-  width:min(90vw,460px);
+  width:min(92vw,500px);
 }
 #mobile-intro .sable-tagline{
-  margin-top:32px;
+  margin-top:28px;
   font-family:'Cinzel Decorative',serif;
-  font-size:9px;letter-spacing:0.42em;text-transform:uppercase;
+  font-size:8px;letter-spacing:0.5em;text-transform:uppercase;
   color:rgba(200,160,50,0);
-  transition:color 1.4s ease 1.8s;
+  transition:color 1.2s ease;
   text-align:center;
+  text-indent:0.5em;
 }
-#mobile-intro.reveal .sable-tagline{color:rgba(200,160,50,0.7);}
+#mobile-intro.reveal .sable-tagline{color:rgba(200,160,50,0.65);}
 
 .sable-svg{overflow:visible;}
-.sable-glow-layer{transition:opacity 1s ease;}
-#mobile-intro.reveal .sable-glow-layer{opacity:0.55 !important;}
 
 /* =====================================================
    PREMIUM GATE — Full Redesign
@@ -57,32 +56,8 @@ body{background:var(--bg);color:var(--cream);font-family:'Montserrat',sans-serif
 }
 #gate.gone{opacity:0;pointer-events:none;}
 
-#gate-light{
-  position:absolute;inset:0;z-index:999;
-  background:radial-gradient(ellipse at 50% 48%,rgba(255,210,80,0.42) 0%,rgba(200,140,20,0.22) 22%,rgba(130,80,10,0.1) 48%,transparent 70%);
-  pointer-events:none;opacity:0;transition:opacity 0.4s ease;
-  mix-blend-mode:screen;
-}
-#gate.opening #gate-light{opacity:1;}
 
-/* Light rays emanating from center seam */
-#gate-rays{
-  position:absolute;top:50%;left:50%;z-index:998;
-  transform:translate(-50%,-50%);
-  width:0;height:0;
-  pointer-events:none;opacity:0;
-  transition:opacity 0.5s ease;
-}
-#gate.opening #gate-rays{opacity:1;}
-.gate-ray{
-  position:absolute;
-  top:0;left:0;
-  width:200vw;height:3px;
-  background:linear-gradient(90deg,rgba(255,220,80,0.55) 0%,rgba(200,160,40,0.18) 30%,transparent 70%);
-  transform-origin:left center;
-  border-radius:2px;
-  filter:blur(1.5px);
-}
+
 .gate-ray:nth-child(1){transform:rotate(-85deg) translateX(-50%);}
 .gate-ray:nth-child(2){transform:rotate(-60deg) translateX(-50%);}
 .gate-ray:nth-child(3){transform:rotate(-30deg) translateX(-50%);}

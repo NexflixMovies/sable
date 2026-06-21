@@ -25,7 +25,7 @@ body{background:var(--bg);color:var(--cream);font-family:'Montserrat',sans-serif
   background:var(--bg);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   pointer-events:none;
-  transition:opacity 0.9s ease;
+  transition:opacity 1.2s ease;
 }
 #mobile-intro.gone{opacity:0;}
 #mobile-intro .sable-svg-wrap{
@@ -34,9 +34,9 @@ body{background:var(--bg);color:var(--cream);font-family:'Montserrat',sans-serif
 #mobile-intro .sable-tagline{
   margin-top:28px;
   font-family:'Cinzel Decorative',serif;
-  font-size:8px;letter-spacing:0.5em;text-transform:uppercase;
+  font-size:8px;letter-spacing:0.3em;text-transform:uppercase;
   color:rgba(200,160,50,0);
-  transition:color 1.2s ease;
+  transition:color 0.5s ease;
   text-align:center;
   text-indent:0.5em;
 }

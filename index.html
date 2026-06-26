@@ -8,6 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
 
 <style>
+
+
+  
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --gold:#c8a84b;--gold-light:#e8d5a0;
@@ -34,7 +37,7 @@ body{
 #cursor.expand{width:4px;height:4px;background:#fff;}
 #cursor-ring{
   position:fixed;width:36px;height:36px;
-  border:1px solid rgba(200,168,75,.4);border-radius:50%;
+  border:1px solid rgba(199,166,67,.6);border-radius:50%;
   pointer-events:none;z-index:9998;transform:translate(-50%,-50%);
   transition:width .25s cubic-bezier(.23,1,.32,1),height .25s cubic-bezier(.23,1,.32,1),border-color .2s,border-radius .25s;
 }
@@ -49,6 +52,16 @@ body{
   position:fixed;width:4px;height:4px;border-radius:50%;
   background:rgba(200,168,75,.35);pointer-events:none;z-index:9996;
   transform:translate(-50%,-50%);transition:opacity .6s;
+}
+/* click burst */
+.click-burst{
+  position:fixed;pointer-events:none;z-index:9995;
+  border-radius:50%;transform:translate(-50%,-50%) scale(0);
+  animation:clickBurst .55s cubic-bezier(.23,1,.32,1) forwards;
+}
+@keyframes clickBurst{
+  0%  {width:6px;height:6px;opacity:.9;transform:translate(-50%,-50%) scale(1);}
+  100%{width:80px;height:80px;opacity:0;transform:translate(-50%,-50%) scale(1);}
 }
 
 /* ── Nav ── */
@@ -65,20 +78,28 @@ nav.scrolled{
   border-bottom:1px solid rgba(200,168,75,.15);
   padding:18px 60px;
 }
+
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap');
+
+/* Modern Premium Sans */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Raleway:wght@300;400;600&display=swap');
+
+
 .nav-logo{
   font-family:'Cormorant Garamond',serif;
-  font-size:2rem;font-weight:300;letter-spacing:.5em;
+  font-size:2rem;font-weight:300;letter-spacing:.1em;
   color:var(--gold);text-decoration:none;
+  text-transform: uppercase;
 }
 .nav-links{display:flex;gap:48px;list-style:none;}
 .nav-links a{
-  font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--text-dim);text-decoration:none;transition:color .3s;
+  font-size:13px;letter-spacing:.25em;text-transform:uppercase;font-weight: 400;
+  color:white;text-decoration:none;transition:color .3s;
 }
 .nav-links a:hover{color:var(--gold);}
 .nav-icons{display:flex;gap:28px;align-items:center;}
 .nav-icons a{
-  font-size:.68rem;letter-spacing:.2em;color:var(--text-dim);
+  font-size:10px;letter-spacing:.2em;color:var(--gold);
   text-decoration:none;transition:color .3s;
 }
 .nav-icons a:hover{color:var(--gold);}
@@ -180,14 +201,14 @@ nav.scrolled{
 .product-grid{
   display:grid;
   grid-template-columns:repeat(3,var(--card-w));
-  gap:48px;
+  gap:58px;
   justify-content:center;
 }
 
 /* ── Skeleton loader ── */
 .skeleton{
   animation:shimmer 1.6s ease-in-out infinite;
-  background:linear-gradient(90deg,rgba(61,21,0,.7) 25%,rgba(100,40,10,.4) 50%,rgba(61,21,0,.7) 75%);
+  background:linear-gradient(90deg,rgba(61,21,0,.7) 25%,rgba(117, 50, 17, 0.938) 50%,rgba(61,21,0,.7) 75%);
   background-size:200% 100%;
   border-radius:10px;
 }
@@ -201,6 +222,62 @@ nav.scrolled{
   padding:16px;display:flex;flex-direction:column;gap:10px;
 }
 
+/* ====== Relevant CSS ====== */
+.scene, .a3d {
+  display: grid;
+}
+
+.scene {
+  /* prevent scrollbars */
+  overflow: hidden;
+  /* for 3D look; smaller = more extreme effect */
+  perspective: 35em;
+  mask: linear-gradient(90deg, #0000, red 20% 80%, #0000);
+}
+
+.a3d {
+  place-self: center;
+  /* don't flatten 3D transformed children 
+   * of this parent having its own 3D transform */
+  transform-style: preserve-3d;
+  animation: ry 32s linear infinite;
+}
+
+/* simplest y axis rotation */
+@keyframes ry {
+  to {
+    rotate: y 1turn;
+  }
+}
+.card {
+  /* base card width, you may change this */
+  --w: 17.5em;
+  /* compute base angle corresponding to a card */
+  --ba: 1turn/var(--n);
+  /* in the future: sibling-count() */
+  grid-area: 1/1;
+  width: var(--w);
+  aspect-ratio: 7/10;
+  object-fit: cover;
+  border-radius: 1.5em;
+  /* don't want to see back of cards in front of screen plane */
+  backface-visibility: hidden;
+  /* need to use a transform chain here, cannot use separate 
+   * rotate & translate properties because they'd be applied 
+   * in wrong order (translate, then rotate) for what we need */
+  transform: rotatey(calc(var(--i)*var(--ba))) translatez(calc(-1*(.5*var(--w) + .5em)/tan(.5*var(--ba))));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .a3d {
+    animation-duration: 128s;
+  }
+}
+/* ====== General page prettifying and layout ====== */
+
+
+
+
 /* ── Product card ── */
 .product-card{
   display:flex;flex-direction:column;align-items:center;
@@ -212,11 +289,12 @@ nav.scrolled{
 
 /* BOX */
 .box{
-  width:260px;height:450px;
-  background:linear-gradient(to bottom,#3d1500f9 0%,#220a00 55%,#0a0300 100%);
+  width:260px;
+  background:linear-gradient(to bottom,#3d1500da 0%,#220a00 55%,#0a0300 100%);
   border-radius:10px;
+  border:1px solid rgba(200,168,75,.18);
   box-shadow:
-    inset 0 0 40px rgba(0,0,0,.9),
+    inset 0 0 27px rgba(0,0,0,.9),
     inset 4px 0 1px rgba(0,0,0,.5),
     inset -4px 0 1px rgba(0,0,0,.5),
     0 20px 60px rgba(0,0,0,.7),
@@ -224,23 +302,20 @@ nav.scrolled{
   position:relative;
   will-change:transform;
   transition:box-shadow .4s;
+  overflow:hidden;
 }
-.box:hover{
-  box-shadow:
-    inset 0 0 40px rgba(0,0,0,.9),
-    inset 4px 0 1px rgba(0,0,0,.5),
-    inset -4px 0 1px rgba(0,0,0,.5),
-    0 28px 80px rgba(0,0,0,.85),
-    0 4px 20px rgba(200,168,75,.12);
-}
+
 .box-top{
   width:100%;height:140px;
   background:linear-gradient(to bottom,#8b3506,#2e0f00);
   border-radius:10px 10px 0 0;
-  box-shadow:inset 0 0 18px rgba(0,0,0,.7);
+  box-shadow:inset 0 0 5px rgba(0,0,0,.7);
   position:relative;overflow:hidden;
   pointer-events:none;user-select:none;
 }
+
+/* upper curved part */
+
 .box-top::after{
   content:"";width:264px;height:250px;
   background:linear-gradient(to bottom,#381300 0%,#2e0f00 38%,#0a0300 100%);
@@ -267,16 +342,12 @@ nav.scrolled{
 
 /* Product info */
 .product-info{
-  width:260px;
-  background:linear-gradient(to bottom,rgba(61,21,0,.6),rgba(10,3,0,.8));
-  border:1px solid rgba(200,168,75,.18);border-top:none;
-  border-radius:0 0 10px 10px;
+  width:100%;
+  border-top:1px solid rgba(200,168,75,.15);
   padding:20px 20px 16px;
   display:flex;flex-direction:column;gap:10px;
-  position:relative;top:-4px;
   transition:border-color .3s;
 }
-.product-card:hover .product-info{border-color:rgba(200,168,75,.3);}
 .product-category{font-size:.5rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
 .product-name{
   font-family:'Cormorant Garamond',serif;
@@ -288,12 +359,13 @@ nav.scrolled{
 .btn-view{
   display:block;text-align:center;margin-top:6px;padding:10px;
   background:transparent;border:1px solid rgba(200,168,75,.4);
-  font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;
+  font-size:10px;letter-spacing:.35em;text-transform:uppercase;
   color:var(--gold);text-decoration:none;
   transition:background .3s,color .3s,border-color .3s;
   font-family:'Montserrat',sans-serif;
+  font-weight: 300;
 }
-.btn-view:hover{background:var(--gold);color:#0a0300;border-color:var(--gold);}
+.btn-view:hover{background:var(--gold);color:#0a0300;border-color:var(--gold);border-radius: 5px;font-weight: 900;}
 
 /* Mobile: tapped state shows view button highlight */
 .product-card.tapped .btn-view{
@@ -418,13 +490,13 @@ footer{padding:80px 60px 40px;border-top:1px solid rgba(200,168,75,.12);}
     justify-items:center;
   }
   .product-card{width:100%;max-width:180px;}
-  .box{width:100%;max-width:180px;height:310px;border-radius:8px;}
+  .box{width:100%;max-width:180px;border-radius:8px;}
   .box-top{height:96px;border-radius:8px 8px 0 0;}
   .box-top::after{width:184px;height:172px;left:-2px;top:31px;}
   .box-pipe2{top:72px;left:85px;width:69px;height:5px;}
   .box-pipe{width:157px;height:5px;top:-24px;left:11px;border-radius:8px;}
   .box-img{height:228px;width:100%;max-width:180px;top:-41px;}
-  .product-info{width:100%;max-width:180px;padding:12px 12px 10px;gap:6px;top:-2px;border-radius:0 0 8px 8px;}
+  .product-info{width:100%;padding:12px 12px 10px;gap:6px;}
   .product-category{font-size:.4rem;letter-spacing:.3em;}
   .product-name{font-size:.78rem;letter-spacing:.03em;}
   .product-price-label{font-size:.38rem;letter-spacing:.2em;}
@@ -459,7 +531,11 @@ footer{padding:80px 60px 40px;border-top:1px solid rgba(200,168,75,.12);}
   footer{padding:64px 36px 32px;}
   .footer-top{grid-template-columns:1fr 1fr;gap:40px;}
 }
+
+
 </style>
+
+
 </head>
 <body>
 
@@ -483,15 +559,9 @@ footer{padding:80px 60px 40px;border-top:1px solid rgba(200,168,75,.12);}
 <section id="hero">
   <div class="hero-bg-lines" id="hero-bg"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">New Season — SS 2026</p>
+
     <h1 class="hero-title">SABLE<em>Clothiers</em></h1>
-    <p class="hero-sub">Where darkness becomes elegance</p>
-    <a href="#collection" class="hero-cta">Explore the Collection</a>
-  </div>
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
+    
 </section>
 
 <div class="marquee-wrap">
@@ -507,6 +577,60 @@ footer{padding:80px 60px 40px;border-top:1px solid rgba(200,168,75,.12);}
   <div class="product-grid" id="skeleton-grid"></div>
   <div class="product-grid" id="product-grid" style="display:none;"></div>
 </section>
+
+<div class="scene">
+                        <div class="a3d" style="--n: 12">
+                                <img
+                                        class="card"
+                                        src="hoodie.png"
+                                        style="--i: 0"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="hoodie2.png"
+                                        style="--i: 1"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="hoodie3.png"
+                                        style="--i: 2"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="hoodie4.png"
+                                        style="--i: 3"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="suit1.png"
+                                        style="--i: 4"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="hoodie.png"
+                                        style="--i: 5"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="hoodie2.png"
+                                        style="--i: 6"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="hoodie3.png"
+                                        style="--i: 7"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="hoodie4.png"
+                                        style="--i: 8"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="hoodie.png"
+                                        style="--i: 9"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="hoodie2.png"
+                                        style="--i: 10"
+                                        alt="jellyfish" /><img
+                                        class="card"
+                                        src="suit1.png"
+                                        style="--i: 11"
+                                        alt="jellyfish" />
+                        </div>
+                </div>
 
 <section id="story">
   <div>
@@ -620,8 +744,8 @@ if (!isMobile) {
     cursor.style.top  = my+'px';
     label.style.left  = mx+'px';
     label.style.top   = my+'px';
-    rx += (mx-rx)*0.18;
-    ry += (my-ry)*0.18;
+    rx += (mx-rx)*0.20;
+    ry += (my-ry)*0.20;
     ring.style.left = rx+'px';
     ring.style.top  = ry+'px';
     trailPositions.unshift({x:mx,y:my});
@@ -668,6 +792,46 @@ if (!isMobile) {
   });
   document.addEventListener('mousedown',()=>{cursor.style.transform='translate(-50%,-50%) scale(.7)';});
   document.addEventListener('mouseup',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';});
+
+  /* ── Click burst ── */
+  document.addEventListener('click', e => {
+    const x = e.clientX, y = e.clientY;
+
+    /* outer expanding ring */
+    const ring1 = document.createElement('div');
+    ring1.className = 'click-burst';
+    ring1.style.cssText = `left:${x}px;top:${y}px;border:1px solid rgba(200,168,75,.8);background:transparent;`;
+    document.body.appendChild(ring1);
+
+    /* second ring, slightly delayed */
+    const ring2 = document.createElement('div');
+    ring2.className = 'click-burst';
+    ring2.style.cssText = `left:${x}px;top:${y}px;border:1px solid rgba(200,168,75,.4);background:transparent;animation-delay:.08s;animation-duration:.65s;`;
+    document.body.appendChild(ring2);
+
+    /* tiny gold particle burst */
+    for (let i = 0; i < 6; i++) {
+      const p = document.createElement('div');
+      const angle = (i / 6) * Math.PI * 2;
+      const dist  = 22 + Math.random() * 14;
+      p.style.cssText = `
+        position:fixed;pointer-events:none;z-index:9994;
+        width:3px;height:3px;border-radius:50%;
+        background:rgba(200,168,75,.9);
+        left:${x}px;top:${y}px;
+        transform:translate(-50%,-50%);
+        animation:none;
+      `;
+      document.body.appendChild(p);
+      p.animate([
+        {transform:'translate(-50%,-50%) translate(0,0)',opacity:1},
+        {transform:`translate(-50%,-50%) translate(${Math.cos(angle)*dist}px,${Math.sin(angle)*dist}px)`,opacity:0}
+      ],{duration:420,easing:'cubic-bezier(.23,1,.32,1)',fill:'forwards'});
+      setTimeout(()=>p.remove(), 450);
+    }
+
+    setTimeout(()=>{ ring1.remove(); ring2.remove(); }, 700);
+  });
 }
 
 /* ── Nav scroll ── */
@@ -733,17 +897,17 @@ function buildCards(){
         <div class="box-pipe2"></div>
         <div class="box-pipe"></div>
         <img src="${p.image}" class="box-img" loading="lazy" decoding="async">
-      </div>
-      <div class="product-info">
-        <div>
-          <div class="product-category">${p.category}</div>
-          <div class="product-name">${p.name}</div>
+        <div class="product-info">
+          <div>
+            <div class="product-category">${p.category}</div>
+            <div class="product-name">${p.name}</div>
+          </div>
+          <div>
+            <div class="product-price-label">Price</div>
+            <div class="product-price">${p.price}</div>
+          </div>
+          <a href="/view.html?id=${p.id}" class="btn-view">View Product</a>
         </div>
-        <div>
-          <div class="product-price-label">Price</div>
-          <div class="product-price">${p.price}</div>
-        </div>
-        <a href="/view.html?id=${p.id}" class="btn-view">View Product</a>
       </div>`;
     grid.appendChild(card);
 
